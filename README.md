@@ -7,3 +7,7 @@
 # JSON files comparison example (flat objects)
 
 [![asciicast](https://asciinema.org/a/GOclS6EYiKZ2RBd6hWMeketMm.svg)](https://asciinema.org/a/GOclS6EYiKZ2RBd6hWMeketMm)
+
+# JSON - YAML files comparison example (flat objects)
+
+[![asciicast](https://asciinema.org/a/3alOVJRqnPi4c7LI9X7CjMhmN.svg)](https://asciinema.org/a/3alOVJRqnPi4c7LI9X7CjMhmN)
