@@ -28,9 +28,8 @@ test('genDiff between files', () => {
   expect(genDiff(getFixturePath('file1.yml'), getFixturePath('file2.json'), 'stylish')).toEqual(readFile('expected_file.txt'));
 
   expect(genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yaml'), 'stylish')).toEqual(readFile('expected_file.txt'));
-  
-  expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'), 'json')).toEqual(null);
 
+  expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'), 'json')).toEqual(null);
 });
 
 test('parser', () => {
@@ -42,4 +41,3 @@ test('parser', () => {
   };
   expect(parser(readFile('file1.yaml'), '.yaml')).toEqual(jsonData);
 });
-
