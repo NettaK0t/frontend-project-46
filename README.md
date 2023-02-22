@@ -14,4 +14,4 @@
 
 # Nested objects comparison (output format - stylish)
 
-[![asciicast](https://asciinema.org/a/D7KDcl2UIwiriyh27QH931sSV.svg)](https://asciinema.org/a/D7KDcl2UIwiriyh27QH931sSV)
+[![asciicast](https://asciinema.org/a/XkYJsubwGNG2mpKSwiNicZLp8.svg)](https://asciinema.org/a/XkYJsubwGNG2mpKSwiNicZLp8)
