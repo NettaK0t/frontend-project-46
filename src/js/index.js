@@ -1,36 +1,50 @@
-import fs from 'fs';
 import _ from 'lodash';
-import path from 'path';
-import parser from './parser.js';
+import genOutput from './stylish.js';
+import readFile from './reader.js';
 
 const genDiff = (filePath1, filPath2, format = 'stylish') => {
-  const filePaths = [filePath1, filPath2];
-  const arrOfObjects = filePaths.map((fPath) => {
-    const formatFile = path.extname(fPath);
-    const strFromFile = fs.readFileSync(path.resolve(fPath), 'utf8');
-    return parser(strFromFile, formatFile);
-  });
-  const [objFromFile1, objFromFile2] = arrOfObjects;
-  const file1Keys = Object.keys(objFromFile1);
-  const file2Keys = Object.keys(objFromFile2);
-  const commonUniqKeys = _.sortBy(_.union(file1Keys, file2Keys));
+  const [objFromFile1, objFromFile2] = readFile(filePath1, filPath2);
 
-  if (format === 'stylish') {
-    const diffStr = commonUniqKeys.reduce((str, key) => {
-      if (!file2Keys.includes(key)) {
-        return `${str}  - ${key}: ${objFromFile1[key]}\n`;
-      }
+  const bldInternalStruct = (obj1, obj2) => {
+    const newObj1 = _.cloneDeep(obj1);
+    const newObj2 = _.cloneDeep(obj2);
+    if (!_.isObject(newObj1) || !_.isObject(newObj2)) {
+      return [];
+    }
+    const file1Keys = Object.keys(newObj1);
+    const file2Keys = Object.keys(newObj2);
+    const commonUniqKeys = _.sortBy(_.union(file1Keys, file2Keys));
+
+    return commonUniqKeys.map((key) => {
+      const children = bldInternalStruct(newObj1[key], newObj2[key]);
       if (!file1Keys.includes(key)) {
-        return `${str}  + ${key}: ${objFromFile2[key]}\n`;
+        return {
+          key, value: newObj2[key], type: 'added', children,
+        };
       }
-      if (objFromFile1[key] !== objFromFile2[key]) {
-        return `${str}  - ${key}: ${objFromFile1[key]}\n  + ${key}: ${objFromFile2[key]}\n`;
+      if (!file2Keys.includes(key)) {
+        return {
+          key, value: newObj1[key], type: 'deleted', children,
+        };
       }
-      return `${str}    ${key}: ${objFromFile1[key]}\n`;
-    }, '');
-    return `{\n${diffStr}}`;
-  }
-  return null;
+      if (_.isObject(newObj1[key]) && _.isObject(newObj2[key])) {
+        return {
+          key, type: 'unchanged', children,
+        };
+      }
+      if (newObj1[key] !== newObj2[key]) {
+        return {
+          key, valBefore: newObj1[key], valAfter: newObj2[key], type: 'changed', children,
+        };
+      }
+      return {
+        key, value: newObj1[key], type: 'unchanged', children,
+      };
+    });
+  };
+  const internalStructure = bldInternalStruct(objFromFile1, objFromFile2);
+
+  return genOutput(internalStructure, format);
 };
 
 export default genDiff;
