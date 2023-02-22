@@ -9,10 +9,10 @@ const makeHelp = () => {
     .version('0.0.1', '-V, --version', 'output the version number')
     .option('-f, --format <type>', 'output format', 'stylish')
     .arguments('<filepath1> <filepath2>')
-    .action((filepath1, filepath2, format = program.opts().format) => console.log(genDiff(
+    .action((filepath1, filepath2) => console.log(genDiff(
       filepath1,
       filepath2,
-      format,
+      program.opts().format,
     )))
     .parse();
 };
