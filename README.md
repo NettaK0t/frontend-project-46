@@ -11,3 +11,7 @@
 # JSON - YAML files comparison example (flat objects)
 
 [![asciicast](https://asciinema.org/a/3alOVJRqnPi4c7LI9X7CjMhmN.svg)](https://asciinema.org/a/3alOVJRqnPi4c7LI9X7CjMhmN)
+
+# Nested objects comparison (output format - stylish)
+
+[![asciicast](https://asciinema.org/a/D7KDcl2UIwiriyh27QH931sSV.svg)](https://asciinema.org/a/D7KDcl2UIwiriyh27QH931sSV)
