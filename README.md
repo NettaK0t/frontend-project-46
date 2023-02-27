@@ -19,3 +19,7 @@
 # Nested objects comparison (output format - plain text)
 
 [![asciicast](https://asciinema.org/a/dCTWHIUPn2uQLIiZwaYgKtW8P.svg)](https://asciinema.org/a/dCTWHIUPn2uQLIiZwaYgKtW8P)
+
+# Nested objects comparison (output format - json)
+
+[![asciicast](https://asciinema.org/a/qvF30KfF7skQjcG7i95XcQo2H.svg)](https://asciinema.org/a/qvF30KfF7skQjcG7i95XcQo2H)
