@@ -10,7 +10,9 @@ const parseObj = (obj, curIndent) => {
 };
 
 const toStr = (node, curIndent) => {
-  const { value, valBefore, valAfter, type, key } = node;
+  const {
+    value, valBefore, valAfter, type, key,
+  } = node;
   const val = (v) => parseObj(v, curIndent);
   switch (type) {
     case 'nested':

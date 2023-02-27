@@ -45,7 +45,9 @@ const genDiff = (filePath1, filPath2, format) => {
       const getProperty = (k) => properties.find(({ check }) => check(k));
 
       const children = bldInternalStruct(obj1[key], obj2[key]);
-      const { value = {}, valBefore = {}, valAfter = {}, type } = getProperty(key);
+      const {
+        value = {}, valBefore = {}, valAfter = {}, type,
+      } = getProperty(key);
 
       return {
         key,
