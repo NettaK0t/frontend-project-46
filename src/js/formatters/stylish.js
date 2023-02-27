@@ -4,24 +4,19 @@ const parseObj = (obj, curIndent) => {
   if (!_.isObject(obj)) {
     return `${obj}`;
   }
-  const lines = Object.entries(obj)
-    .map(([key, val]) => `${curIndent}      ${key}: ${parseObj(val, `${curIndent}    `)}`);
+  const lines = Object.entries(obj).map(([key, val]) => `${curIndent}      ${key}: ${parseObj(val, `${curIndent}    `)}`);
 
-  return [
-    '{',
-    ...lines,
-    `  ${curIndent}}`,
-  ].join('\n');
+  return ['{', ...lines, `  ${curIndent}}`].join('\n');
 };
 
 const toStr = (node, curIndent) => {
-  const {
-    value, valBefore, valAfter, type, key,
-  } = node;
+  const { value, valBefore, valAfter, type, key } = node;
   const val = (v) => parseObj(v, curIndent);
   switch (type) {
+    case 'nested':
+      return '  ';
     case 'unchanged':
-      return value ? `  ${key}: ${value}` : '  ';
+      return `  ${key}: ${value}`;
     case 'updated':
       return `- ${key}: ${val(valBefore)}\n${curIndent}+ ${key}: ${val(valAfter)}`;
     case 'removed':
@@ -36,7 +31,7 @@ const genStylishOutput = (arrObjects, replacer = ' ', spacesCount = 2) => {
   const output = arrObjects.map((obj) => {
     const makeStylish = (node, depth) => {
       const { key, type, children } = node;
-      const newDepth = type === 'unchanged' ? depth + 1 : depth;
+      const newDepth = type === 'nested' ? depth + 1 : depth;
       const indentSize = depth * spacesCount;
       const curIndent = replacer.repeat(indentSize);
       const bktIndent = replacer.repeat(newDepth * spacesCount);
@@ -49,6 +44,7 @@ const genStylishOutput = (arrObjects, replacer = ' ', spacesCount = 2) => {
     };
     return makeStylish(obj, 1);
   });
+
   return `{\n${output.join('\n')}\n}`;
 };
 
