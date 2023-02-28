@@ -1,5 +1,5 @@
 #!/usr/bin/env node
 
-import makeHelp from '../src/js/cli.js';
+import makeHelp from './cli.js';
 
 makeHelp();

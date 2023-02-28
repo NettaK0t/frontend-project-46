@@ -1,5 +1,5 @@
 import { Command } from 'commander';
-import genDiff from './index.js';
+import genDiff from './src/js/index.js';
 
 const makeHelp = () => {
   const program = new Command();

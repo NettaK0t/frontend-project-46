@@ -166,6 +166,27 @@ const internalStructure = [
 ];
 
 test('generate differences between files', () => {
+  expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'))).toEqual(readFile('expected_result1.txt'));
+  expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.yaml'))).toEqual(readFile('expected_result1.txt'));
+  expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.yml'))).toEqual(readFile('expected_result1.txt'));
+  expect(genDiff(getFixturePath('file1.yaml'), getFixturePath('file2.yaml'))).toEqual(readFile('expected_result1.txt'));
+  expect(genDiff(getFixturePath('file1.yaml'), getFixturePath('file2.json'))).toEqual(readFile('expected_result1.txt'));
+  expect(genDiff(getFixturePath('file1.yaml'), getFixturePath('file2.yml'))).toEqual(readFile('expected_result1.txt'));
+  expect(genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yml'))).toEqual(readFile('expected_result1.txt'));
+  expect(genDiff(getFixturePath('file1.yml'), getFixturePath('file2.json'))).toEqual(readFile('expected_result1.txt'));
+  expect(genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yaml'))).toEqual(readFile('expected_result1.txt'));
+  expect(genDiff(getFixturePath('file2.json'), getFixturePath('file1.json'))).toEqual(readFile('expected_result2.txt'));
+  expect(genDiff(getFixturePath('file2.json'), getFixturePath('file1.yaml'))).toEqual(readFile('expected_result2.txt'));
+  expect(genDiff(getFixturePath('file2.json'), getFixturePath('file1.yml'))).toEqual(readFile('expected_result2.txt'));
+  expect(genDiff(getFixturePath('file2.yaml'), getFixturePath('file1.yaml'))).toEqual(readFile('expected_result2.txt'));
+  expect(genDiff(getFixturePath('file2.yaml'), getFixturePath('file1.json'))).toEqual(readFile('expected_result2.txt'));
+  expect(genDiff(getFixturePath('file2.yaml'), getFixturePath('file1.yml'))).toEqual(readFile('expected_result2.txt'));
+  expect(genDiff(getFixturePath('file2.yml'), getFixturePath('file1.yml'))).toEqual(readFile('expected_result2.txt'));
+  expect(genDiff(getFixturePath('file2.yml'), getFixturePath('file1.json'))).toEqual(readFile('expected_result2.txt'));
+  expect(genDiff(getFixturePath('file2.yml'), getFixturePath('file1.yaml'))).toEqual(readFile('expected_result2.txt'));
+});
+
+test('generate differences "stylish"', () => {
   expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'), 'stylish')).toEqual(readFile('expected_result1.txt'));
   expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.yaml'), 'stylish')).toEqual(readFile('expected_result1.txt'));
   expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.yml'), 'stylish')).toEqual(readFile('expected_result1.txt'));
@@ -184,6 +205,9 @@ test('generate differences between files', () => {
   expect(genDiff(getFixturePath('file2.yml'), getFixturePath('file1.yml'), 'stylish')).toEqual(readFile('expected_result2.txt'));
   expect(genDiff(getFixturePath('file2.yml'), getFixturePath('file1.json'), 'stylish')).toEqual(readFile('expected_result2.txt'));
   expect(genDiff(getFixturePath('file2.yml'), getFixturePath('file1.yaml'), 'stylish')).toEqual(readFile('expected_result2.txt'));
+});
+
+test('generate differences "plain"', () => {
   expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'), 'plain')).toEqual(readFile('expected_result3.txt'));
   expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.yaml'), 'plain')).toEqual(readFile('expected_result3.txt'));
   expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.yml'), 'plain')).toEqual(readFile('expected_result3.txt'));
@@ -202,6 +226,9 @@ test('generate differences between files', () => {
   expect(genDiff(getFixturePath('file2.yml'), getFixturePath('file1.yml'), 'plain')).toEqual(readFile('expected_result4.txt'));
   expect(genDiff(getFixturePath('file2.yml'), getFixturePath('file1.json'), 'plain')).toEqual(readFile('expected_result4.txt'));
   expect(genDiff(getFixturePath('file2.yml'), getFixturePath('file1.yaml'), 'plain')).toEqual(readFile('expected_result4.txt'));
+});
+
+test('generate differences "json"', () => {
   expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'), 'json')).toEqual(readFile('expected_JSON_result.json'));
   expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.yaml'), 'json')).toEqual(readFile('expected_JSON_result.json'));
   expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.yml'), 'json')).toEqual(readFile('expected_JSON_result.json'));
@@ -257,6 +284,7 @@ test('generate output', () => {
   expect(genOutput(internalStructure, 'stylish')).toEqual(readFile('expected_result1.txt'));
   expect(genOutput(internalStructure, 'plain')).toEqual(readFile('expected_result3.txt'));
   expect(genOutput(internalStructure, 'json')).toEqual(readFile('expected_JSON_result.json'));
+  expect(genOutput(internalStructure)).toEqual(readFile('expected_result1.txt'));
 });
 
 test('generate stylish output', () => {
