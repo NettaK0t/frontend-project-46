@@ -40,6 +40,7 @@ const genStylishOutput = (arrObjects, replacer = ' ', spacesCount = 2) => {
 
       if (children.length === 0) {
         return `${curIndent}${toStr(node, curIndent)}`;
+
       }
       const childrenView = children.map((child) => makeStylish(child, newDepth + 1)).join('\n');
       return `${curIndent}${toStr(node, curIndent)}${key}: {\n${childrenView}\n${bktIndent}}`;

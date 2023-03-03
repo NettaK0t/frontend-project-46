@@ -278,6 +278,10 @@ test('parser', () => {
   };
   expect(parser(readFile('file1.json'), '.json')).toMatchObject(jsonData);
   expect(parser(readFile('file1.yaml'), '.yaml')).toMatchObject(jsonData);
+
+  expect(() => {
+    parser(readFile('file1.json'), '.jpeg');
+  }).toThrow('Error. Please enter correct format name');
 });
 
 test('generate output', () => {
@@ -285,6 +289,10 @@ test('generate output', () => {
   expect(genOutput(internalStructure, 'plain')).toEqual(readFile('expected_result3.txt'));
   expect(genOutput(internalStructure, 'json')).toEqual(readFile('expected_JSON_result.json'));
   expect(genOutput(internalStructure)).toEqual(readFile('expected_result1.txt'));
+
+  expect(() => {
+    genOutput(internalStructure, 'jpeg');
+  }).toThrow('Error. Please enter correct format name');
 });
 
 test('generate stylish output', () => {
