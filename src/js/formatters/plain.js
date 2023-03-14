@@ -12,35 +12,32 @@ const parseUpdatedObj = (curPath, valBefore, valAfter, type) => {
   return `Property '${curPath.join('.')}' was ${type}. From ${valBefore} to ${valAfter}`;
 };
 
-const toStr = (node, curPath) => {
-  const {
-    value, valBefore, valAfter, type,
-  } = node;
-  switch (type) {
-    case 'unchanged':
-      return '';
-    case 'updated':
-      return parseUpdatedObj(curPath, getValueType(valBefore), getValueType(valAfter), type);
-    case 'removed':
-      return `Property '${curPath.join('.')}' was ${type}`;
-    default: return _.isObject(value) ? `Property '${curPath.join('.')}' was ${type} with value: [complex value]`
-      : `Property '${curPath.join('.')}' was ${type} with value: ${getValueType(value)}`;
-  }
-};
-
 const genPlainOutput = (arrObjects) => {
   const output = arrObjects.map((obj) => {
     const makePlain = (node, route) => {
-      const { key, children } = node;
-      const currentPath = [...route, key];
-      if (children.length === 0) {
-        return `${toStr(node, currentPath)}`;
+      const {
+        key, children, value, valBefore, valAfter, type,
+      } = node;
+      const currPath = [...route, key];
+
+      switch (type) {
+        case 'unchanged':
+          return '';
+        case 'updated':
+          return parseUpdatedObj(currPath, getValueType(valBefore), getValueType(valAfter), type);
+        case 'removed':
+          return `Property '${currPath.join('.')}' was ${type}`;
+        case 'added':
+          return _.isObject(value) ? `Property '${currPath.join('.')}' was ${type} with value: [complex value]` : `Property '${currPath.join('.')}' was ${type} with value: ${getValueType(value)}`;
+        case 'nested':
+          return children.map((child) => makePlain(child, currPath))
+            .filter((child) => child !== '').join('\n');
+        default:
+          throw new Error('Error!');
       }
-      return children.map((child) => makePlain(child, currentPath))
-        .filter((child) => child !== '').join('\n');
     };
     return makePlain(obj, []);
   });
-  return output.filter((str) => str !== '').join('\n');
+  return output.join('\n');
 };
 export default genPlainOutput;
